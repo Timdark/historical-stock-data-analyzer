@@ -5,12 +5,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 import compareDesc from 'date-fns/compareDesc'
+import format from 'date-fns/format'
 
 import {
   SortingState,
   IntegratedSorting,
   PagingState,
   IntegratedPaging,
+  DataTypeProvider,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -19,34 +21,65 @@ import {
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 
+/***************************** CSS & STYLES & FORMATING ***************************/
 // Component CSS styles
 const styles = theme => ({
-    root: {
-      display: 'flex',
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-    card: {
-      width: '40%',
-      textAlign: 'left',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginBottom: '10px',
-      marginTop: '10px',
-    },
-    cardContent: {
-      padding: 20,
-    },
-    cardTitle: {
-      backgroundColor: '#457883',
-      textAlign: 'left',
-      padding: 20,
-    },
-  })
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  card: {
+    backgroundColor: '#F6F6F6',
+    width: 'auto',
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
+  },
+  cardContent: {
+    padding: 20,
+  },
+  cardTitle: {
+    color: 'white',
+    backgroundColor: '#1976D2',
+    textAlign: 'left',
+    padding: 20,
+  },
+})
 
-// CLASS
+// Table header row content style
+const TableHeaderContentBase = ({
+  column,
+  children,
+  classes,
+  ...restProps
+}) => (
+  <TableHeaderRow.Content
+    column={column}
+    {...restProps}
+    style={{ color: '#444', fontSize: '14px', fontWeight: 'bold' }}
+  >
+    {children}
+  </TableHeaderRow.Content>
+);
+
+export const TableHeaderContent = withStyles(styles, {
+  name: 'TableHeaderContent',
+})(TableHeaderContentBase);
+
+// Date formating
+const DateFormatter = ({ value }) =>
+  value !== null ? format(new Date(value), 'MM/dd/yyyy') : value;
+
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
+);
+
+/*************************************** CLASS ******************************************/
 class VolumeAndPrice extends React.Component {
     // STATE
     constructor(props) {
@@ -62,9 +95,8 @@ class VolumeAndPrice extends React.Component {
             end_date: "",
             defaultSorting: [{ columnName: 'priceChange', direction: 'desc' }],
             sorting: [
-              { columnName: 'date', direction: 'desc' },
               { columnName: 'volume', direction: 'desc' },
-              { columnName: 'priceChange', direction: 'asc' },
+              { columnName: 'priceChange', direction: 'desc' },
             ],
             dateColumns: ['date'],
             pageSizes: [5, 10, 15],
@@ -91,9 +123,9 @@ class VolumeAndPrice extends React.Component {
 
                 // Row object make
                 let row = {
-                  date: day.data[0],
+                  date: format(new Date(day.data[0]), 'yyyy/MM/dd'),  // Need convert table lib understand format
                   volume: parseFloat(volume),
-                  priceChange: Math.abs(parseFloat(temp_high) - parseFloat(temp_low)),
+                  priceChange: Math.abs(parseFloat(temp_high) - parseFloat(temp_low)).toFixed(4),
                 }
 
                 // Push object to table temp data array
@@ -134,6 +166,7 @@ class VolumeAndPrice extends React.Component {
         currentPage,
         pageSize,
         pageSizes,
+        dateColumns,
       } = this.state;
 
       return (
@@ -141,6 +174,7 @@ class VolumeAndPrice extends React.Component {
               <Card className={classes.card}>
                   <CardHeader
                       title="Highest trading volume and price changes"
+                      className={classes.cardTitle}
                   />
                   <CardContent>
                     <Grid
@@ -160,8 +194,12 @@ class VolumeAndPrice extends React.Component {
                       />
                       <IntegratedSorting />
                       <IntegratedPaging />
+                      <DateTypeProvider for={dateColumns} />
                       <Table />
-                      <TableHeaderRow showSortingControls />
+                      <TableHeaderRow 
+                        showSortingControls 
+                        contentComponent={TableHeaderContent}
+                      />
                       <PagingPanel
                         pageSizes={pageSizes}
                       />

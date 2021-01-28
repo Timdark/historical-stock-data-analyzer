@@ -5,12 +5,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 import compareDesc from 'date-fns/compareDesc'
+import format from 'date-fns/format'
 
 import {
   SortingState,
   IntegratedSorting,
   PagingState,
   IntegratedPaging,
+  DataTypeProvider,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -19,33 +21,65 @@ import {
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 
+/***************************** CSS & STYLES & FORMATING ***************************/
 // Component CSS styles
 const styles = theme => ({
-    root: {
-      display: 'flex',
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-    card: {
-      width: '40%',
-      textAlign: 'left',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginBottom: '10px',
-      marginTop: '10px',
-    },
-    cardContent: {
-      padding: 20,
-    },
-    cardTitle: {
-      backgroundColor: '#457883',
-      textAlign: 'left',
-      padding: 20,
-    },
-  })
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  card: {
+    backgroundColor: '#F6F6F6',
+    width: 'auto',
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
+  },
+  cardContent: {
+    padding: 20,
+  },
+  cardTitle: {
+    color: 'white',
+    backgroundColor: '#1976D2',
+    textAlign: 'left',
+    padding: 20,
+  },
+})
 
+// Table header row styles
+const TableHeaderContentBase = ({
+  column,
+  children,
+  classes,
+  ...restProps
+}) => (
+  <TableHeaderRow.Content
+    column={column}
+    {...restProps}
+    style={{ color: '#666', fontSize: '14px', fontWeight: 'bold' }}
+  >
+    {children}
+  </TableHeaderRow.Content>
+);
+
+export const TableHeaderContent = withStyles(styles, {
+  name: 'TableHeaderContent',
+})(TableHeaderContentBase);
+
+// Date formating
+const DateFormatter = ({ value }) =>
+  value !== null ? format(new Date(value), 'MM/dd/yyyy') : value;
+
+const DateTypeProvider = props => (
+  <DataTypeProvider formatterComponent={DateFormatter} {...props} />
+);
+
+/*************************************** CLASS ******************************************/ 
 class BestOpeningPrice extends React.Component {
     // STATE
     constructor(props) {
@@ -60,7 +94,6 @@ class BestOpeningPrice extends React.Component {
           end_date: "",
           defaultSorting: [{ columnName: 'priceChange', direction: 'desc' }],
           sorting: [
-            { columnName: 'date', direction: 'desc' },
             { columnName: 'priceChange', direction: 'asc' },
           ],
           dateColumns: ['date'],
@@ -103,8 +136,8 @@ class BestOpeningPrice extends React.Component {
 
               // Row object make
               let row = {
-                date: day.data[0],
-                priceChange: sma5 !== 0?temp_day_open/sma5*100:"Can't calc",  // Calc price change % + safety addons
+                date: format(new Date(day.data[0]), 'yyyy/MM/dd'),  // Need convert table lib understand format
+                priceChange: sma5 !== 0?parseFloat((temp_day_open/sma5*100).toFixed(4)):"Can't calc sma5",  // Calc price change % + safety addons
               }
 
               // Push object to table temp data array
@@ -145,6 +178,7 @@ class BestOpeningPrice extends React.Component {
         currentPage,
         pageSize,
         pageSizes,
+        dateColumns,
       } = this.state;
 
       return (
@@ -152,6 +186,7 @@ class BestOpeningPrice extends React.Component {
             <Card className={classes.card}>
                 <CardHeader
                     title="Price change percentages (SMA 5)"
+                    className={classes.cardTitle}
                 />
                 <CardContent>
                   <Grid
@@ -171,8 +206,12 @@ class BestOpeningPrice extends React.Component {
                     />
                     <IntegratedSorting />
                     <IntegratedPaging />
+                    <DateTypeProvider for={dateColumns} />
                     <Table />
-                    <TableHeaderRow showSortingControls />
+                    <TableHeaderRow 
+                      showSortingControls 
+                      contentComponent={TableHeaderContent}
+                    />
                     <PagingPanel
                       pageSizes={pageSizes}
                     />

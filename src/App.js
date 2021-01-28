@@ -6,14 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 import Grid from '@material-ui/core/Grid';
-
-import Button from '@material-ui/core/Button';
 
 import LongestBullish from './components/LongestBullish';
 import VolumeAndPrice from './components/VolumeAndPrice';
@@ -28,6 +21,8 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format'
 
+/***************************** CSS & STYLES & FORMATING ***************************/
+
 const drawerWidth = 240;  // Left drawer width
 
 /****************** STYLES ***********************/
@@ -41,6 +36,8 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: '#1565C0',
+    color: 'white',
   },
   drawer: {
     width: drawerWidth,
@@ -49,14 +46,15 @@ const styles = theme => ({
   drawerPaper: {
     width: drawerWidth,
     alignItems: 'center',
+    backgroundColor: '#ECEFF1',
   },
   drawerContainer: {
-    overflow: 'auto',
     alignItems: 'center',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    backgroundColor: '#CFD8DC',
   },
   toolbar: {
     alignItems: 'center',
@@ -69,6 +67,18 @@ const styles = theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  grid: {
+    [theme.breakpoints.down('lg')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.between('lg', 'xl')]: {
+      width: '80%',
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: '74%',
+    },
+    margin: 'auto',
   },
 })
 
@@ -101,13 +111,10 @@ class App extends React.Component {
   };
 
   /****************** IMPORT CSV-FILE **************/
-  handleOnDrop = async (data, file) => {
-    console.log('---------------------------')
-    console.log(file.name)
-    console.log(data)
-    console.log('---------------------------')
-
-    await this.setState({
+  // Save and parse file
+  handleOnDrop = (data, file) => {
+    // Save imported data to temp
+    this.setState({
       file_name: file.name,
       csv_data: data,
       file_end_date: data[1].data[0],
@@ -117,9 +124,13 @@ class App extends React.Component {
     });
   }
 
+  // Handle errors
   handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
+
+  // Remove file
+  handleOnRemoveFile = () => {};
 
   /************* DATE PICKERS ****************/
   handleStartDateChange = (date) => {
@@ -145,7 +156,7 @@ class App extends React.Component {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="h6" noWrap>
+            <Typography variant="h4" noWrap>
               Historical stock data analyzer
             </Typography>
           </Toolbar>
@@ -161,35 +172,62 @@ class App extends React.Component {
           <div className={classes.drawerContainer}>
             <div>
               <h3>Import CSV-file</h3>
-              <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-                Add CSV-file
-              </Button>
-              <Dialog
-                open={this.state.open}
-                onClose={this.handleClose}
-                aria-labelledby="import-csv-file"
+              <CSVReader
+                onDrop={this.handleOnDrop}
+                onError={this.handleOnError}
+                accept='.csv'
+                addRemoveButton
+                onRemoveFile={this.handleOnRemoveFile}
+                style={{
+                  dropArea: {
+                    borderColor: 'black',
+                    borderRadius: 20,
+                    width: 200,
+                    height: 40,
+                  },
+                  dropAreaActive: {
+                    borderColor: 'red',
+                  },
+                  dropFile: {
+                    width: 190,
+                    height: 40,
+                    background: '#ccc',
+                    boxShadow: '1px 1px 1px 1px #aaa',
+                  },
+                  fileSizeInfo: {
+                    color: 'black',
+                    backgroundColor: '#ccc',
+                    borderRadius: 3,
+                    lineHeight: 1,
+                    marginBottom: '0.5em',
+                    padding: '0 0.4em',
+                  },
+                  fileNameInfo: {
+                    color: 'black',
+                    backgroundColor: '#ccc',
+                    borderRadius: 3,
+                    fontSize: 14,
+                    lineHeight: 1,
+                    padding: '0 0.4em',
+                  },
+                  removeButton: {
+                    color: '#E91E63',
+                    position: 'relative',
+                  },
+                  progressBar: {
+                    backgroundColor: '#2196F3',
+                    width: 50,
+                    height: 4,
+                  },
+                }}
               >
-                <DialogTitle id="import-csv-file">Import CSV-file</DialogTitle>
-                <DialogContent>
-                  <CSVReader
-                    onDrop={this.handleOnDrop}
-                    onError={this.handleOnError}
-                  >
-                    <span>Drop CSV file here or click to upload.</span>
-                  </CSVReader>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleClose} color="primary" autoFocus>
-                    Done
-                  </Button>
-                </DialogActions>
-              </Dialog>
-              <h5>Imported file: {this.state.file_name}</h5>
+                <span>Drop CSV file here or click to upload.</span>
+              </CSVReader>
             </div>
             <div>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <h3>Checking date range</h3>
-                <h6>Starting date</h6>
+                <h5>Starting date</h5>
                 <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
@@ -204,7 +242,7 @@ class App extends React.Component {
                   }}
                   InputProps={{ className: classes.input }}
                 />
-                <h6>Ending date</h6>
+                <h5>Ending date</h5>
                 <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
@@ -231,14 +269,15 @@ class App extends React.Component {
             direction="row"
             justify="center"
             alignItems="flex-start"
+            className={classes.grid}
           >
             <Grid item xs={12}>
               <LongestBullish data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs>
               <VolumeAndPrice data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />     
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs>
               <BestOpeningPrice data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />
             </Grid>
           </Grid>

@@ -7,46 +7,76 @@ import Typography from '@material-ui/core/Typography';
 
 import compareDesc from 'date-fns/compareDesc'
 
+import {
+  Chart,
+  ArgumentAxis,
+  ValueAxis,
+  LineSeries,
+  ZoomAndPan,
+  Tooltip,
+} from '@devexpress/dx-react-chart-material-ui';
+import { scaleTime } from 'd3-scale';
+import { ArgumentScale, EventTracker } from '@devexpress/dx-react-chart';
+
+/***************************** CSS & STYLES & FORMATING ***************************/
 // Component CSS styles
 const styles = theme => ({
-    root: {
-      display: 'flex',
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-    card: {
-      width: '40%',
-      textAlign: 'left',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginBottom: '10px',
-      marginTop: '10px',
-    },
-    cardContent: {
-      padding: 20,
-    },
-    cardTitle: {
-      backgroundColor: '#457883',
-      textAlign: 'left',
-      padding: 20,
-    },
-    typography: {
-      noWrap: false,
-      wordWrap: "break-word"
-    }
-  })
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  card: {
+    backgroundColor: '#F6F6F6',
+    width: 'auto',
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '10px',
+    marginTop: '10px',
+  },
+  cardContent: {
+    padding: 20,
+  },
+  cardTitle: {
+    color: 'white',
+    backgroundColor: '#1976D2',
+    textAlign: 'left',
+    padding: 20,
+  },
+  typography: {
+    noWrap: false,
+    wordWrap: "break-word"
+  }
+})
 
-// CLASS
+// Adding y axis values $ symbol
+const Label = symbol => (props) => {
+  const { text } = props;
+  return (
+    <ValueAxis.Label
+      {...props}
+      text={text + symbol}
+    />
+  );
+};
+
+const PriceLabel = Label(' $');
+
+/*************************************** CLASS ******************************************/
 class LongestBullish extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             start_date: "",
             end_date: "",
-            longest_bullish: ""
+            longest_bullish: "",
+            chart_data: [],
+            viewport: undefined,
         };
+        this.viewportChange = viewport => this.setState({ viewport });
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -54,6 +84,7 @@ class LongestBullish extends React.Component {
         let bullish_temp = 0;
         let max_bullish = 1;
         let last_day_data = 0.0;
+        let chart_data_temp = [];
 
         // Reverse data array content
         const reverse_data_array = props.data.map(temp => temp).reverse();
@@ -83,6 +114,8 @@ class LongestBullish extends React.Component {
                 bullish_temp = 1
                 last_day_data = parseFloat(close_last)
               }
+
+              chart_data_temp.push({x: new Date(day.data[0]), y: parseFloat(close_last)})
             }
           }           
         })
@@ -92,6 +125,7 @@ class LongestBullish extends React.Component {
           start_date: props.start,
           end_date: props.end,
           longest_bullish: max_bullish,
+          chart_data: chart_data_temp,
         };
       }
       // Return null to indicate no change to state.
@@ -100,18 +134,38 @@ class LongestBullish extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const {
+          chart_data,
+          viewport,
+          longest_bullish,
+          end_date,
+          start_date
+        } = this.state;
 
         return (
             <div>
                 <Card className={classes.card}>
                     <CardHeader
                         title="Longest bullish trend"
+                        className={classes.cardTitle}
                     />
                     <CardContent>
-                        <Typography variant="body1" component="p" className={classes.typography}>
-                          Stock historical data the Close/Last price increased <b>{this.state.longest_bullish}</b> days in a row 
-                          between <b>{this.state.start_date}</b> and <b>{this.state.end_date}</b>.  
-                        </Typography>
+                      <Typography variant="body1" component="p" className={classes.typography}>
+                        Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
+                        between <b>{start_date}</b> and <b>{end_date}</b>.  
+                      </Typography>
+                      <Chart data={chart_data}>
+                        <ArgumentScale factory={scaleTime} />
+                        <ArgumentAxis />
+                        <ValueAxis 
+                          labelComponent={PriceLabel}
+                        />
+
+                        <LineSeries valueField="y" argumentField="x" />
+                        <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
+                        <EventTracker />
+                        <Tooltip />
+                      </Chart>
                     </CardContent>
                 </Card>
             </div>
