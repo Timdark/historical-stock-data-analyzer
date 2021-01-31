@@ -102,6 +102,7 @@ class App extends React.Component {
         file_end_date: undefined,
         start_date: undefined,
         end_date: undefined,
+        opacity: 0,
     };
   }
 
@@ -154,6 +155,13 @@ class App extends React.Component {
     })
   };
 
+  // Animation csv button text
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({opacity: 1})
+    }, 500)
+  }
+
   /************* SITE RENDER ******************/
   render() {
     // Load styles to drops
@@ -165,6 +173,7 @@ class App extends React.Component {
       start_date,
       end_date,
       csv_data,
+      opacity,
     } = this.state;
 
     return (
@@ -205,7 +214,8 @@ class App extends React.Component {
                     borderStyle: 'solid',
                     borderRadius: 20,
                     boxShadow: '#CCC 1px 1px',
-                    backgroundColor: '#cfd8dc',
+                    backgroundColor: '#5C6BC0',
+                    color: 'white',
                     width: 200,
                     height: 40,
                     marginBottom: '25px',
@@ -250,7 +260,13 @@ class App extends React.Component {
                   },
                 }}
               >
-                <span>Drop CSV file here or click to upload.</span>
+                <span 
+                style={{
+                  transition: 'opacity ease 0.5s',
+                  opacity: opacity,
+                }}>
+                      Drop CSV file here or click to upload.
+                </span>
               </CSVReader>
             </div>
             <Divider />
