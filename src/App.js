@@ -222,6 +222,10 @@ class App extends React.Component {
                     fontSize: 14,
                     lineHeight: 1,
                     padding: '0 0.4em',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: '150px', 
+                    overflow: 'hidden', 
                   },
                   removeButton: {
                     color: '#E91E63',

@@ -158,6 +158,7 @@ class LongestBullish extends React.Component {
         start_date
       } = this.state;
 
+      // Check - Have childern data, change showing view
       if(chart_data.length !== 0){
         return (
           <div>
@@ -178,7 +179,6 @@ class LongestBullish extends React.Component {
                       <ValueAxis 
                         labelComponent={PriceLabel}
                       />
-
                       <LineSeries valueField="y" argumentField="x" />
                       <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
                       <EventTracker />
