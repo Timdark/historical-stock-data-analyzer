@@ -24,6 +24,8 @@ import format from 'date-fns/format'
 
 import logo from './logo.svg'
 
+import GetAppIcon from '@material-ui/icons/GetApp';
+
 /***************************** CSS & STYLES & FORMATING ***************************/
 
 const drawerWidth = 240;  // Left drawer width
@@ -260,13 +262,20 @@ class App extends React.Component {
                   },
                 }}
               >
-                <span 
-                style={{
-                  transition: 'opacity ease 0.5s',
-                  opacity: opacity,
-                }}>
-                      Drop CSV file here or click to upload.
-                </span>
+                <Grid container spacing={3}>
+                  <Grid item xs={2}>
+                    <GetAppIcon fontSize="large" />
+                  </Grid>
+                  <Grid item xs={10}>
+                    <span 
+                      style={{
+                        transition: 'opacity ease 0.5s',
+                        opacity: opacity,
+                      }}>
+                          Drop CSV file here or click to upload
+                    </span>
+                  </Grid>
+                </Grid>
               </CSVReader>
             </div>
             <Divider />

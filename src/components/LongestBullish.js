@@ -39,6 +39,7 @@ const styles = theme => ({
   },
   cardContent: {
     padding: 20,
+    transition: 'opacity ease 0.5s',
   },
   cardTitle: {
     color: 'white',
@@ -76,6 +77,7 @@ class LongestBullish extends React.Component {
             longest_bullish: "",
             chart_data: [],
             viewport: undefined,
+            opacity: 0,
         };
         this.viewportChange = viewport => this.setState({ viewport });
     }
@@ -146,6 +148,13 @@ class LongestBullish extends React.Component {
       return null;
     }
 
+    // Animation csv button text
+    componentDidMount() {
+      setTimeout(() => {
+        this.setState({opacity: 1})
+      }, 1000)
+    }
+
     render() {
       // Load styles to drops
       const { classes } = this.props;
@@ -155,13 +164,17 @@ class LongestBullish extends React.Component {
         viewport,
         longest_bullish,
         end_date,
-        start_date
+        start_date,
+        opacity,
       } = this.state;
 
       // Check - Have childern data, change showing view
       if(chart_data.length !== 0){
         return (
-          <div>
+          <div style={{
+            
+            opacity: opacity,
+          }}>
               <Card className={classes.card}>
                   <CardHeader
                       title="Longest bullish trend"
@@ -183,7 +196,7 @@ class LongestBullish extends React.Component {
                       <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
                       <EventTracker />
                       <Tooltip />
-                    </Chart>
+                    </Chart> 
                   </CardContent>
               </Card>
           </div>
