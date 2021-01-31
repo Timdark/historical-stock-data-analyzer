@@ -19,6 +19,7 @@ https://historical-stock-data-analyzer.herokuapp.com/
 ## Features
 
 - React app
+- JSS and Inline CSS(forced to use this some components)
 - Material UI components and styles
 - DevExtreme Reactive tables and chart
 - Fully responsive

@@ -222,7 +222,7 @@ class App extends React.Component {
                     marginBottom: '25px',
                   },
                   dropAreaActive: {
-                    borderColor: 'red',
+                    borderColor: '#666',
                   },
                   dropFile: {
                     width: 190,
