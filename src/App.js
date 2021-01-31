@@ -22,6 +22,8 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format'
 
+import logo from './logo.jpg'
+
 /***************************** CSS & STYLES & FORMATING ***************************/
 
 const drawerWidth = 240;  // Left drawer width
@@ -82,6 +84,10 @@ const styles = theme => ({
     },
     margin: 'auto',
   },
+  logo: {
+    width: '100px',
+    height: '100px',
+  }
 })
 
 /****************** CLASS ***************************/
@@ -166,6 +172,11 @@ class App extends React.Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h4" noWrap>
+              <img
+                src={logo}
+                alt="Historical stock data analyzer"
+                className={classes.logo}
+              />
               Historical stock data analyzer
             </Typography>
           </Toolbar>
