@@ -201,10 +201,10 @@ class App extends React.Component {
                 onRemoveFile={this.handleOnRemoveFile}
                 style={{
                   dropArea: {
-                    borderColor: '#666666',
+                    borderColor: '#CCC',
                     borderStyle: 'solid',
                     borderRadius: 20,
-                    boxShadow: '1px 1px 1px 1px #b6b6b6',
+                    boxShadow: '#CCC 1px 1px',
                     backgroundColor: '#cfd8dc',
                     width: 200,
                     height: 40,
