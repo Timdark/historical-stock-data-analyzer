@@ -23,6 +23,7 @@ https://historical-stock-data-analyzer.herokuapp.com/
 - DevExtreme Reactive tables and chart
 - Fully responsive
 - Data changes(Given csv or date change) updates information automatically
+- Animation to necessary button to get user attention
 
 ## Libraries
 

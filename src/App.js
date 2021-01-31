@@ -159,7 +159,7 @@ class App extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({opacity: 1})
-    }, 500)
+    }, 1)
   }
 
   /************* SITE RENDER ******************/
