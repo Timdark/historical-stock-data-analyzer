@@ -133,43 +133,45 @@ class LongestBullish extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const {
-          chart_data,
-          viewport,
-          longest_bullish,
-          end_date,
-          start_date
-        } = this.state;
+      // Load styles to drops
+      const { classes } = this.props;
+      // Load state values what needed...
+      const {
+        chart_data,
+        viewport,
+        longest_bullish,
+        end_date,
+        start_date
+      } = this.state;
 
-        return (
-            <div>
-                <Card className={classes.card}>
-                    <CardHeader
-                        title="Longest bullish trend"
-                        className={classes.cardTitle}
-                    />
-                    <CardContent>
-                      <Typography variant="body1" component="p" className={classes.typography}>
-                        Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
-                        between <b>{start_date}</b> and <b>{end_date}</b>.  
-                      </Typography>
-                      <Chart data={chart_data}>
-                        <ArgumentScale factory={scaleTime} />
-                        <ArgumentAxis />
-                        <ValueAxis 
-                          labelComponent={PriceLabel}
-                        />
+      return (
+          <div>
+              <Card className={classes.card}>
+                  <CardHeader
+                      title="Longest bullish trend"
+                      className={classes.cardTitle}
+                  />
+                  <CardContent>
+                    <Typography variant="body1" component="p" className={classes.typography}>
+                      Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
+                      between <b>{start_date}</b> and <b>{end_date}</b>.  
+                    </Typography>
+                    <Chart data={chart_data}>
+                      <ArgumentScale factory={scaleTime} />
+                      <ArgumentAxis />
+                      <ValueAxis 
+                        labelComponent={PriceLabel}
+                      />
 
-                        <LineSeries valueField="y" argumentField="x" />
-                        <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
-                        <EventTracker />
-                        <Tooltip />
-                      </Chart>
-                    </CardContent>
-                </Card>
-            </div>
-        )
+                      <LineSeries valueField="y" argumentField="x" />
+                      <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
+                      <EventTracker />
+                      <Tooltip />
+                    </Chart>
+                  </CardContent>
+              </Card>
+          </div>
+      )
     }
 }
 

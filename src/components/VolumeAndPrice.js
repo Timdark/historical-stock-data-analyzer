@@ -67,6 +67,7 @@ const TableHeaderContentBase = ({
   </TableHeaderRow.Content>
 );
 
+// Table header row content style
 export const TableHeaderContent = withStyles(styles, {
   name: 'TableHeaderContent',
 })(TableHeaderContentBase);
@@ -75,6 +76,7 @@ export const TableHeaderContent = withStyles(styles, {
 const DateFormatter = ({ value }) =>
   value !== null ? format(new Date(value), 'MM/dd/yyyy') : value;
 
+  // Date formating
 const DateTypeProvider = props => (
   <DataTypeProvider formatterComponent={DateFormatter} {...props} />
 );
@@ -157,7 +159,9 @@ class VolumeAndPrice extends React.Component {
 
     // Page render
     render() {
+      // Load styles to drops
       const { classes } = this.props;
+      // Load state values what needed...
       const {
         sorting,
         defaultSorting,

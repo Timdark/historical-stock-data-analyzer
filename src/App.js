@@ -55,6 +55,7 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: '#CFD8DC',
+    minHeight: '100vh',
   },
   toolbar: {
     alignItems: 'center',
@@ -88,7 +89,6 @@ class App extends React.Component {
     super(props);
     this.state = {
         open: false,
-        file_name: "none",
         csv_data: [],
         file_start_date: undefined,
         file_end_date: undefined,
@@ -112,10 +112,9 @@ class App extends React.Component {
 
   /****************** IMPORT CSV-FILE **************/
   // Save and parse file
-  handleOnDrop = (data, file) => {
+  handleOnDrop = (data) => {
     // Save imported data to temp
     this.setState({
-      file_name: file.name,
       csv_data: data,
       file_end_date: data[1].data[0],
       file_start_date: data[data.length - 2].data[0],
@@ -149,7 +148,16 @@ class App extends React.Component {
 
   /************* SITE RENDER ******************/
   render() {
+    // Load styles to drops
     const { classes } = this.props;
+    // Load state values what needed...
+    const {
+      file_end_date,
+      file_start_date,
+      start_date,
+      end_date,
+      csv_data,
+    } = this.state;
 
     return (
       <div className={classes.root}>
@@ -180,8 +188,11 @@ class App extends React.Component {
                 onRemoveFile={this.handleOnRemoveFile}
                 style={{
                   dropArea: {
-                    borderColor: 'black',
+                    borderColor: '#666666',
+                    borderStyle: 'solid',
                     borderRadius: 20,
+                    boxShadow: '1px 1px 1px 1px #b6b6b6',
+                    backgroundColor: '#cfd8dc',
                     width: 200,
                     height: 40,
                   },
@@ -233,9 +244,9 @@ class App extends React.Component {
                   variant="inline"
                   format="MM/dd/yyyy"
                   id="start-date-picker-inline"
-                  minDate={this.state.file_start_date}
-                  maxDate={this.state.file_end_date}
-                  value={this.state.start_date}
+                  minDate={file_start_date}
+                  maxDate={file_end_date}
+                  value={start_date}
                   onChange={this.handleStartDateChange}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
@@ -248,9 +259,9 @@ class App extends React.Component {
                   variant="inline"
                   format="MM/dd/yyyy"
                   id="end-date-picker-inline"
-                  minDate={this.state.file_start_date}
-                  maxDate={this.state.file_end_date}
-                  value={this.state.end_date}
+                  minDate={file_start_date}
+                  maxDate={file_end_date}
+                  value={end_date}
                   onChange={this.handleEndDateChange}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
@@ -272,13 +283,13 @@ class App extends React.Component {
             className={classes.grid}
           >
             <Grid item xs={12}>
-              <LongestBullish data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />
+              <LongestBullish data={csv_data} start={start_date} end={end_date} />
             </Grid>
             <Grid item xs>
-              <VolumeAndPrice data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />     
+              <VolumeAndPrice data={csv_data} start={start_date} end={end_date} />     
             </Grid>
             <Grid item xs>
-              <BestOpeningPrice data={this.state.csv_data} start={this.state.start_date} end={this.state.end_date} />
+              <BestOpeningPrice data={csv_data} start={start_date} end={end_date} />
             </Grid>
           </Grid>
         </main>
