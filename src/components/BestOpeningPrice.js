@@ -96,7 +96,7 @@ class BestOpeningPrice extends React.Component {
           end_date: "",
           defaultSorting: [{ columnName: 'priceChange', direction: 'desc' }],
           sorting: [
-            { columnName: 'priceChange', direction: 'asc' },
+            { columnName: 'priceChange', direction: 'desc' },
           ],
           dateColumns: ['date'],
           pageSizes: [5, 10, 15],
@@ -119,6 +119,7 @@ class BestOpeningPrice extends React.Component {
             // User input days range - pick days only in range      
             if(compareDesc(new Date(props.start), new Date(day.data[0])) !== -1 && compareDesc(new Date(day.data[0]), new Date(props.end)) !== -1) {
               let sma5 = 0
+              let row = {}
 
               // Create SMA 5 value
               if(i > 5){  // Safety - array
@@ -136,14 +137,17 @@ class BestOpeningPrice extends React.Component {
               // Remove string unnesesary marks, like '$'
               let temp_day_open = day.data[4].substring(2)
 
-              // Row object make
-              let row = {
-                date: format(new Date(day.data[0]), 'yyyy/MM/dd'),  // Need convert table lib understand format
-                priceChange: sma5 !== 0?parseFloat((temp_day_open/sma5*100).toFixed(4)):"Can't calc sma5",  // Calc price change % + safety addons
-              }
+              // Filetter out data first 5 days, those days cant calc sma5 (no early data)
+              if(sma5 !== 0){
+                // Row object make
+                row = {
+                  date: format(new Date(day.data[0]), 'yyyy/MM/dd'),  // Need convert table lib understand format
+                  priceChange: parseFloat((temp_day_open/sma5*100-100).toFixed(4)),  // Calc price change % + safety addons
+                }
 
-              // Push object to table temp data array
-              table_temp.push(row)
+                // Push object to table temp data array
+                table_temp.push(row)
+              }
             }
           }           
         })
@@ -189,7 +193,7 @@ class BestOpeningPrice extends React.Component {
         <div>
             <Card className={classes.card}>
                 <CardHeader
-                    title="Price change percentages (SMA 5)"
+                    title="Best open price vs. SMA5 in percentages"
                     className={classes.cardTitle}
                 />
                 <CardContent>

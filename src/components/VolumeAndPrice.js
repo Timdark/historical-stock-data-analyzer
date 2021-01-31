@@ -177,7 +177,7 @@ class VolumeAndPrice extends React.Component {
           <div>
               <Card className={classes.card}>
                   <CardHeader
-                      title="Highest trading volume and price changes"
+                      title="Highest trading volume and price changes within a day"
                       className={classes.cardTitle}
                   />
                   <CardContent>

@@ -48,7 +48,8 @@ const styles = theme => ({
   },
   typography: {
     noWrap: false,
-    wordWrap: "break-word"
+    wordWrap: "break-word",
+    marginBottom: '10px',
   }
 })
 
@@ -120,13 +121,26 @@ class LongestBullish extends React.Component {
           }           
         })
 
-        // Save parsed data to state
-        return {
-          start_date: props.start,
-          end_date: props.end,
-          longest_bullish: max_bullish,
-          chart_data: chart_data_temp,
-        };
+        // Save parsed data to state - if start or end date user changed --> set chart viewport
+        if(props.start !== state.start_date || props.end !== state.end_date){
+          return {
+            start_date: props.start,
+            end_date: props.end,
+            longest_bullish: max_bullish,
+            chart_data: chart_data_temp,
+            viewport: {
+              argumentStart: new Date(props.start),
+              argumentEnd: new Date(props.end),
+            },
+          }
+        } else {
+          return {
+            start_date: props.start,
+            end_date: props.end,
+            longest_bullish: max_bullish,
+            chart_data: chart_data_temp,
+          };
+        }
       }
       // Return null to indicate no change to state.
       return null;
@@ -154,7 +168,8 @@ class LongestBullish extends React.Component {
                   <CardContent>
                     <Typography variant="body1" component="p" className={classes.typography}>
                       Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
-                      between <b>{start_date}</b> and <b>{end_date}</b>.  
+                      between <b>{start_date}</b> and <b>{end_date}</b>. Below is the per-share information in the Close/Last Price graph.
+                      (You can zoom in as needed (mouse cursor table and use mouse scrolling) and daily values can be obtained from the day to line)
                     </Typography>
                     <Chart data={chart_data}>
                       <ArgumentScale factory={scaleTime} />

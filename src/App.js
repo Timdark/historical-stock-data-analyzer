@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -195,6 +196,7 @@ class App extends React.Component {
                     backgroundColor: '#cfd8dc',
                     width: 200,
                     height: 40,
+                    marginBottom: '25px',
                   },
                   dropAreaActive: {
                     borderColor: 'red',
@@ -235,9 +237,10 @@ class App extends React.Component {
                 <span>Drop CSV file here or click to upload.</span>
               </CSVReader>
             </div>
+            <Divider />
             <div>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <h3>Checking date range</h3>
+                <h3>Give date range</h3>
                 <h5>Starting date</h5>
                 <KeyboardDatePicker
                   disableToolbar
