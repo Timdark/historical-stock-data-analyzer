@@ -4,9 +4,28 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live demo
 
+Site live demo link below. First time go to site can take some extra time to load page, so be patent. 
+(Heroku sleeps site after 20 min unusage and unsleep takes some time.)
+
 https://historical-stock-data-analyzer.herokuapp.com/
 
-## Available Scripts
+## Features
+
+- React app
+- Material UI components and styles
+- DevExtreme Reactive tables and chart
+- Fully responsive
+- Data changes(Given csv or date change) updates information automatically
+
+## Libraries
+
+- React https://reactjs.org/
+- Material UI https://material-ui.com/
+- React-papaparse https://www.npmjs.com/package/react-papaparse
+- Date-fns https://date-fns.org/
+- DevExtreme Reactive https://devexpress.github.io/devextreme-reactive/
+
+## Development - Available Scripts
 
 In the project directory, you can run:
 
