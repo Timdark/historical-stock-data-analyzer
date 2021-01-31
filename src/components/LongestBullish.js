@@ -158,7 +158,8 @@ class LongestBullish extends React.Component {
         start_date
       } = this.state;
 
-      return (
+      if(chart_data.length !== 0){
+        return (
           <div>
               <Card className={classes.card}>
                   <CardHeader
@@ -186,7 +187,24 @@ class LongestBullish extends React.Component {
                   </CardContent>
               </Card>
           </div>
-      )
+        )
+      } else {
+        return (
+          <div>
+              <Card className={classes.card}>
+                  <CardHeader
+                      title="Longest bullish trend"
+                      className={classes.cardTitle}
+                  />
+                  <CardContent>
+                    <Typography variant="body1" component="p" className={classes.typography}>
+                      No Data
+                    </Typography>
+                  </CardContent>
+              </Card>
+          </div>
+        )
+      }
     }
 }
 
