@@ -22,7 +22,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format'
 
-import logo from './logo.jpg'
+import logo from './logo.svg'
 
 /***************************** CSS & STYLES & FORMATING ***************************/
 
@@ -85,8 +85,9 @@ const styles = theme => ({
     margin: 'auto',
   },
   logo: {
-    width: '100px',
-    height: '100px',
+    width: '40px',
+    height: '40px',
+    marginRight: '10px',
   }
 })
 
@@ -171,12 +172,12 @@ class App extends React.Component {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
+            <img
+              src={logo}
+              alt=''
+              className={classes.logo}
+            />
             <Typography variant="h4" noWrap>
-              <img
-                src={logo}
-                alt="Historical stock data analyzer"
-                className={classes.logo}
-              />
               Historical stock data analyzer
             </Typography>
           </Toolbar>
