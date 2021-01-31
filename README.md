@@ -1,6 +1,13 @@
 # Historical stock data analyzer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is about web site app, that analyzes historical stock data. App asks csv-file and analyzes it. 
+After that it shows analyzed data. Optional: user can give date range, that changes analyzed data that date range.
+Default date range is max csv-file contained date range.
+
+- A given data range:   
+    - Longest bullish trend + chart,
+    - Table, with contains the highest trading velume and the most significant stock price change within a day,
+    - Table, with contains the best opening price compared to 5 days simple moving average (SMA 5), difference given in percentages(%),
 
 ## Live demo
 
