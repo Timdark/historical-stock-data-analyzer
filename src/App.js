@@ -216,7 +216,6 @@ class App extends React.Component {
                     borderStyle: 'dashed',
                     borderRadius: '20px',
                     borderWidth: '2px',
-                    boxShadow: '#CCC 1px 1px',
                     backgroundColor: 'rgb(232 232 232)',
                     width: 200,
                     height: 40,
@@ -229,7 +228,7 @@ class App extends React.Component {
                     width: 190,
                     height: 40,
                     background: '#ccc',
-                    boxShadow: '1px 1px 1px 1px #aaa',
+                    boxShadow: '#aaa 1px 1px',
                   },
                   fileSizeInfo: {
                     color: 'black',
@@ -268,12 +267,13 @@ class App extends React.Component {
                     opacity: opacity,
                     display: 'flex',
                     flexDirection: 'row',
-                }}>
+                  }}
+                >
                   <GetAppIcon fontSize="large" style={{
                     position: 'relative',
                     left: '-5px',
                     top: '3px',
-                    color: '#999999'
+                    color: '#7e7e7e',
                   }} />
                   Drop CSV file here or click to upload
                 </div>
