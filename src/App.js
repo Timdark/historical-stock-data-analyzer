@@ -212,12 +212,12 @@ class App extends React.Component {
                 onRemoveFile={this.handleOnRemoveFile}
                 style={{
                   dropArea: {
-                    borderColor: '#CCC',
-                    borderStyle: 'solid',
-                    borderRadius: 20,
+                    borderColor: '#B6B6B6',
+                    borderStyle: 'dashed',
+                    borderRadius: '20px',
+                    borderWidth: '2px',
                     boxShadow: '#CCC 1px 1px',
-                    backgroundColor: '#5C6BC0',
-                    color: 'white',
+                    backgroundColor: 'rgb(232 232 232)',
                     width: 200,
                     height: 40,
                     marginBottom: '25px',
@@ -262,20 +262,21 @@ class App extends React.Component {
                   },
                 }}
               >
-                <Grid container spacing={3}>
-                  <Grid item xs={2}>
-                    <GetAppIcon fontSize="large" />
-                  </Grid>
-                  <Grid item xs={10}>
-                    <span 
-                      style={{
-                        transition: 'opacity ease 0.5s',
-                        opacity: opacity,
-                      }}>
-                          Drop CSV file here or click to upload
-                    </span>
-                  </Grid>
-                </Grid>
+                <div 
+                  style={{
+                    transition: 'opacity ease 0.5s',
+                    opacity: opacity,
+                    display: 'flex',
+                    flexDirection: 'row',
+                }}>
+                  <GetAppIcon fontSize="large" style={{
+                    position: 'relative',
+                    left: '-5px',
+                    top: '3px',
+                    color: '#999999'
+                  }} />
+                  Drop CSV file here or click to upload
+                </div>
               </CSVReader>
             </div>
             <Divider />

@@ -39,7 +39,6 @@ const styles = theme => ({
   },
   cardContent: {
     padding: 20,
-    transition: 'opacity ease 0.5s',
   },
   cardTitle: {
     color: 'white',
@@ -77,7 +76,6 @@ class LongestBullish extends React.Component {
             longest_bullish: "",
             chart_data: [],
             viewport: undefined,
-            opacity: 0,
         };
         this.viewportChange = viewport => this.setState({ viewport });
     }
@@ -148,13 +146,6 @@ class LongestBullish extends React.Component {
       return null;
     }
 
-    // Animation csv button text
-    componentDidMount() {
-      setTimeout(() => {
-        this.setState({opacity: 1})
-      }, 1000)
-    }
-
     render() {
       // Load styles to drops
       const { classes } = this.props;
@@ -165,56 +156,52 @@ class LongestBullish extends React.Component {
         longest_bullish,
         end_date,
         start_date,
-        opacity,
       } = this.state;
 
       // Check - Have childern data, change showing view
       if(chart_data.length !== 0){
         return (
-          <div style={{
-            
-            opacity: opacity,
-          }}>
-              <Card className={classes.card}>
-                  <CardHeader
-                      title="Longest bullish trend"
-                      className={classes.cardTitle}
-                  />
-                  <CardContent>
-                    <Typography variant="body1" component="p" className={classes.typography}>
-                      Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
-                      between <b>{start_date}</b> and <b>{end_date}</b>. Below is the per-share information in the Close/Last Price graph.
-                      (You can zoom in as needed (mouse cursor table and use mouse scrolling) and daily values can be obtained from the day to line)
-                    </Typography>
-                    <Chart data={chart_data}>
-                      <ArgumentScale factory={scaleTime} />
-                      <ArgumentAxis />
-                      <ValueAxis 
-                        labelComponent={PriceLabel}
-                      />
-                      <LineSeries valueField="y" argumentField="x" />
-                      <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
-                      <EventTracker />
-                      <Tooltip />
-                    </Chart> 
-                  </CardContent>
-              </Card>
+          <div>
+            <Card className={classes.card}>
+                <CardHeader
+                    title="Longest bullish trend"
+                    className={classes.cardTitle}
+                />
+                <CardContent>
+                  <Typography variant="body1" component="p" className={classes.typography}>
+                    Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
+                    between <b>{start_date}</b> and <b>{end_date}</b>. Below is the per-share information in the Close/Last Price graph.
+                    (You can zoom in as needed (mouse cursor table and use mouse scrolling) and daily values can be obtained from the day to line)
+                  </Typography>
+                  <Chart data={chart_data}>
+                    <ArgumentScale factory={scaleTime} />
+                    <ArgumentAxis />
+                    <ValueAxis 
+                      labelComponent={PriceLabel}
+                    />
+                    <LineSeries valueField="y" argumentField="x" />
+                    <ZoomAndPan viewport={viewport} onViewportChange={this.viewportChange} />
+                    <EventTracker />
+                    <Tooltip />
+                  </Chart> 
+                </CardContent>
+            </Card>
           </div>
         )
       } else {
         return (
           <div>
-              <Card className={classes.card}>
-                  <CardHeader
-                      title="Longest bullish trend"
-                      className={classes.cardTitle}
-                  />
-                  <CardContent>
-                    <Typography variant="body1" component="p" className={classes.typography}>
-                      No Data
-                    </Typography>
-                  </CardContent>
-              </Card>
+            <Card className={classes.card}>
+                <CardHeader
+                    title="Longest bullish trend"
+                    className={classes.cardTitle}
+                />
+                <CardContent>
+                  <Typography variant="body1" component="p" className={classes.typography}>
+                    No Data
+                  </Typography>
+                </CardContent>
+            </Card>
           </div>
         )
       }
