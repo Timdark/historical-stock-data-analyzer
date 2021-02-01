@@ -170,8 +170,8 @@ class LongestBullish extends React.Component {
                 <CardContent>
                   <Typography variant="body1" component="p" className={classes.typography}>
                     Stock historical data the Close/Last price increased <b>{longest_bullish}</b> days in a row 
-                    between <b>{start_date}</b> and <b>{end_date}</b>. Below is the per-share information in the Close/Last Price graph.
-                    (You can zoom in as needed (mouse cursor table and use mouse scrolling) and daily values can be obtained from the day to line)
+                    between <b>{start_date}</b> and <b>{end_date}</b>. Below is the stock historical data information in the Close/Last Price graph.
+                    (You can zoom in as needed (mouse cursor table and use mouse scrolling) and daily ($) values can be obtained from the day to line)
                   </Typography>
                   <Chart data={chart_data}>
                     <ArgumentScale factory={scaleTime} />
