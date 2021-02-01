@@ -34,7 +34,7 @@ https://historical-stock-data-analyzer.herokuapp.com/
 - Date-fns https://date-fns.org/
 - DevExtreme Reactive https://devexpress.github.io/devextreme-reactive/
 
-## Pictures
+## Icon pictures
 
 - favicon and icon https://pixabay.com/fi/vectors/viivakaavion-viivan-viivakaavio-148256/
 
