@@ -16,6 +16,13 @@ Site live demo link below. First time go to site can take some extra time to loa
 
 https://historical-stock-data-analyzer.herokuapp.com/
 
+## Example data
+
+Example data is Apple historical stock data from nasdaq.
+
+- https://www.nasdaq.com/api/v1/historical/AAPL/stocks/2020-01-20/2021-01-20
+- https://www.nasdaq.com/market-activity/stocks/aapl/historical
+
 ## Features
 
 - React app
