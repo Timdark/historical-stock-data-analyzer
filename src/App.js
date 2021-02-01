@@ -90,6 +90,7 @@ const styles = theme => ({
     width: '40px',
     height: '40px',
     marginRight: '10px',
+    filter: 'drop-shadow(1px 1px 0px #FFFFFF) drop-shadow(-1px 1px 0px #FFFFFF) drop-shadow(1px -1px 0px #FFFFFF) drop-shadow(-1px -1px 0px #FFFFFF)',
   }
 })
 
