@@ -135,7 +135,7 @@ class BestOpeningPrice extends React.Component {
               }
 
               // Remove string unnesesary marks, like '$'
-              let temp_day_open = day.data[4].substring(2)
+              let temp_day_open = day.data[3].substring(2)
 
               // Filetter out data first 5 days, those days cant calc sma5 (no early data)
               if(sma5 !== 0){
