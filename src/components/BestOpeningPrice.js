@@ -61,7 +61,7 @@ const TableHeaderContentBase = ({
   <TableHeaderRow.Content
     column={column}
     {...restProps}
-    style={{ color: '#666', fontSize: '14px', fontWeight: 'bold' }}
+    style={{ color: '#444', fontSize: '14px', fontWeight: 'bold' }}
   >
     {children}
   </TableHeaderRow.Content>

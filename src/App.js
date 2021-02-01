@@ -82,7 +82,7 @@ const styles = theme => ({
       width: '80%',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '74%',
+      width: '75%',
     },
     margin: 'auto',
   },
