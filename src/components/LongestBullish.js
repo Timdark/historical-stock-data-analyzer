@@ -53,7 +53,7 @@ const styles = theme => ({
   }
 })
 
-// Adding y axis values $ symbol
+/*********************** Adding y axis values $ symbol *****************************/
 const Label = symbol => (props) => {
   const { text } = props;
   return (
@@ -80,6 +80,7 @@ class LongestBullish extends React.Component {
         this.viewportChange = viewport => this.setState({ viewport });
     }
 
+    // Get drops and parse data to right format
     static getDerivedStateFromProps(props, state) {
       if (props.data !== state.csv_data || props.start !== state.start_date || props.end !== state.end_date) {
         let bullish_temp = 0;

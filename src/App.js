@@ -157,7 +157,7 @@ class App extends React.Component {
     })
   };
 
-  // Animation csv button text
+  /************ Animation for csv-button text **************/
   componentDidMount() {
     setTimeout(() => {
       this.setState({opacity: 1})

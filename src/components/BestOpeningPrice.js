@@ -51,7 +51,7 @@ const styles = theme => ({
   },
 })
 
-// Table header row styles
+/********************** Table header row styles *************************/
 const TableHeaderContentBase = ({
   column,
   children,
@@ -67,16 +67,14 @@ const TableHeaderContentBase = ({
   </TableHeaderRow.Content>
 );
 
-// Table header row styles
 export const TableHeaderContent = withStyles(styles, {
   name: 'TableHeaderContent',
 })(TableHeaderContentBase);
 
-// Date formating
+/*************************** Table date formating **************************************/
 const DateFormatter = ({ value }) =>
   value !== null ? format(new Date(value), 'MM/dd/yyyy') : value;
 
-// Date formating
 const DateTypeProvider = props => (
   <DataTypeProvider formatterComponent={DateFormatter} {...props} />
 );
